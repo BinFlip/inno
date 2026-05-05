@@ -66,6 +66,13 @@ pub enum Compression {
     Unknown,
 }
 
+stable_name_enum!(Compression, {
+    Self::Stored => "stored",
+    Self::Zlib => "zlib",
+    Self::Lzma1 => "lzma1",
+    Self::Unknown => "unknown",
+});
+
 impl Compression {
     fn from_block(c: BlockCompression) -> Self {
         match c {
@@ -108,6 +115,12 @@ pub enum EncryptionMode {
     /// encryption header is XChaCha20-encrypted.
     Full,
 }
+
+stable_name_enum!(EncryptionMode, {
+    Self::None => "none",
+    Self::Files => "files",
+    Self::Full => "full",
+});
 
 /// High-level view of an Inno Setup installer.
 ///
@@ -575,6 +588,12 @@ impl<'a> InnoInstaller<'a> {
     /// The bytes are codepage-encoded per the installer's language
     /// table; callers that need a `String` should run them through
     /// the appropriate decoder.
+    ///
+    /// These header text fields are length-prefixed setup-header blobs;
+    /// current supported Inno Setup formats do not carry a per-field
+    /// checksum for `LicenseText`, `InfoBeforeText`, or `InfoAfterText`.
+    /// Integrity validation is therefore limited to successful setup-0
+    /// decompression and structural parsing.
     #[must_use]
     pub fn license_text(&self) -> Option<&[u8]> {
         self.header
@@ -772,6 +791,14 @@ impl<'a> InnoInstaller<'a> {
     #[must_use]
     pub fn file_locations(&self) -> &[DataEntry] {
         &self.records.file_locations
+    }
+
+    /// Returns the file-location record referenced by a file entry.
+    #[must_use]
+    pub fn file_location_for(&self, file: &FileEntry) -> Option<&DataEntry> {
+        usize::try_from(file.location_index)
+            .ok()
+            .and_then(|idx| self.records.file_locations.get(idx))
     }
 
     /// Iterates the install + uninstall command-execution stream

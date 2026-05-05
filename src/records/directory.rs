@@ -43,6 +43,14 @@ pub enum DirectoryFlag {
     UnsetNtfsCompression,
 }
 
+stable_flag_enum!(DirectoryFlag, {
+    NeverUninstall => "never_uninstall",
+    DeleteAfterInstall => "delete_after_install",
+    AlwaysUninstall => "always_uninstall",
+    SetNtfsCompression => "set_ntfs_compression",
+    UnsetNtfsCompression => "unset_ntfs_compression",
+});
+
 /// Parsed `TSetupDirEntry`.
 #[derive(Clone, Debug)]
 pub struct DirectoryEntry {

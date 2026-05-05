@@ -47,6 +47,11 @@ pub enum LocatorMode {
     LegacyFileOffset,
 }
 
+stable_name_enum!(LocatorMode, {
+    Self::SignatureScan => "signature_scan",
+    Self::LegacyFileOffset => "legacy_file_offset",
+});
+
 /// Span of bytes inside the input slice that contains the offset
 /// table.
 #[derive(Clone, Copy, Debug)]

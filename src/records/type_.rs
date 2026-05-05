@@ -37,6 +37,13 @@ pub enum SetupTypeKind {
     DefaultCustom,
 }
 
+stable_name_enum!(SetupTypeKind, {
+    Self::User => "user",
+    Self::DefaultFull => "default_full",
+    Self::DefaultCompact => "default_compact",
+    Self::DefaultCustom => "default_custom",
+});
+
 /// Parsed `TSetupTypeEntry`.
 #[derive(Clone, Debug)]
 pub struct TypeEntry {

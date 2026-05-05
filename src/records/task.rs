@@ -42,6 +42,14 @@ pub enum TaskFlag {
     DontInheritCheck,
 }
 
+stable_flag_enum!(TaskFlag, {
+    Exclusive => "exclusive",
+    Unchecked => "unchecked",
+    Restart => "restart",
+    CheckedOnce => "checked_once",
+    DontInheritCheck => "dont_inherit_check",
+});
+
 /// Parsed `TSetupTaskEntry`.
 #[derive(Clone, Debug)]
 pub struct TaskEntry {

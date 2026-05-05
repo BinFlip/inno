@@ -44,6 +44,14 @@ pub enum DataChecksum {
     Sha256([u8; 32]),
 }
 
+stable_name_enum!(DataChecksum, {
+    Self::Adler32(_) => "adler32",
+    Self::Crc32(_) => "crc32",
+    Self::Md5(_) => "md5",
+    Self::Sha1(_) => "sha1",
+    Self::Sha256(_) => "sha256",
+});
+
 /// `TSetupFileLocationFlags` flag bits.
 #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
 #[non_exhaustive]
@@ -64,6 +72,21 @@ pub enum DataFlag {
     SignOnce,
 }
 
+stable_flag_enum!(DataFlag, {
+    VersionInfoValid => "version_info_valid",
+    VersionInfoNotValid => "version_info_not_valid",
+    BZipped => "bzipped",
+    TimeStampInUTC => "time_stamp_in_utc",
+    IsUninstallerExe => "is_uninstaller_exe",
+    CallInstructionOptimized => "call_instruction_optimized",
+    Touch => "touch",
+    ChunkEncrypted => "chunk_encrypted",
+    ChunkCompressed => "chunk_compressed",
+    SolidBreak => "solid_break",
+    Sign => "sign",
+    SignOnce => "sign_once",
+});
+
 /// `TSetupFileLocationSignMode` — 6.3.0+ replacement for the
 /// per-entry `Sign` / `SignOnce` flags.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -78,6 +101,13 @@ pub enum SignMode {
     /// `smCheck`.
     Check,
 }
+
+stable_name_enum!(SignMode, {
+    Self::NoSetting => "no_setting",
+    Self::Yes => "yes",
+    Self::Once => "once",
+    Self::Check => "check",
+});
 
 /// Parsed `TSetupFileLocationEntry`.
 #[derive(Clone, Debug)]

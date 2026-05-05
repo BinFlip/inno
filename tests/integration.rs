@@ -5,6 +5,14 @@
 //! gitignored, so these tests gracefully `eprintln` + return early if
 //! the fixtures aren't present locally.
 
+#![allow(
+    clippy::unwrap_used,
+    clippy::expect_used,
+    clippy::panic,
+    clippy::arithmetic_side_effects,
+    clippy::indexing_slicing
+)]
+
 use std::{io::Read, path::PathBuf};
 
 use innospect::{

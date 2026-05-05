@@ -33,6 +33,12 @@ pub enum DeleteTargetType {
     DirIfEmpty,
 }
 
+stable_name_enum!(DeleteTargetType, {
+    Self::Files => "files",
+    Self::FilesAndSubdirs => "files_and_subdirs",
+    Self::DirIfEmpty => "dir_if_empty",
+});
+
 /// Parsed `TSetupDeleteEntry`.
 #[derive(Clone, Debug)]
 pub struct DeleteEntry {

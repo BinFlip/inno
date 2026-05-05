@@ -90,6 +90,14 @@ pub enum Bitness {
     CurrentProcess,
 }
 
+stable_name_enum!(Bitness, {
+    Self::InstallDefault => "install_default",
+    Self::Bits32 => "bits32",
+    Self::Bits64 => "bits64",
+    Self::Native => "native",
+    Self::CurrentProcess => "current_process",
+});
+
 impl Bitness {
     /// Decodes a raw `TSetupEntryBitness` byte. Unknown values map
     /// to `None`.

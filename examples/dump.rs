@@ -190,7 +190,10 @@ fn main() {
         );
     }
     if installer.languages().len() > 5 {
-        println!("    … {} more", installer.languages().len() - 5);
+        println!(
+            "    … {} more",
+            installer.languages().len().saturating_sub(5)
+        );
     }
     for (i, t) in installer.tasks().iter().enumerate().take(8) {
         println!(
@@ -224,7 +227,7 @@ fn main() {
         );
     }
     if installer.files().len() > 4 {
-        println!("    … {} more", installer.files().len() - 4);
+        println!("    … {} more", installer.files().len().saturating_sub(4));
     }
     for (i, r) in installer.registry_entries().iter().enumerate() {
         println!(

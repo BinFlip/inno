@@ -119,6 +119,15 @@ pub enum Variant {
     GogGalaxy,
 }
 
+stable_name_enum!(Variant, {
+    Self::Stock => "stock",
+    Self::Isx => "isx",
+    Self::Legacy1210 => "legacy_1_2_10",
+    Self::BlackBox => "blackbox",
+    Self::Gog => "gog",
+    Self::GogGalaxy => "gog_galaxy",
+});
+
 bitflags::bitflags! {
     /// Boolean modifiers on the parsed [`Version`], decoded from the
     /// marker. Stored as a small bitset for cheap copying.

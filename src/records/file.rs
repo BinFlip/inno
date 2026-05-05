@@ -47,6 +47,12 @@ pub enum FileEntryType {
     RegSvrExe,
 }
 
+stable_name_enum!(FileEntryType, {
+    Self::UserFile => "user_file",
+    Self::UninstExe => "uninst_exe",
+    Self::RegSvrExe => "reg_svr_exe",
+});
+
 /// `TSetupFileOptions` flag bits.
 #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
 #[non_exhaustive]
@@ -91,6 +97,44 @@ pub enum FileFlag {
     /// 6.5.0+ — payload is a 7-Zip archive to extract.
     ExtractArchive,
 }
+
+stable_flag_enum!(FileFlag, {
+    ConfirmOverwrite => "confirm_overwrite",
+    NeverUninstall => "never_uninstall",
+    RestartReplace => "restart_replace",
+    DeleteAfterInstall => "delete_after_install",
+    RegisterServer => "register_server",
+    RegisterTypeLib => "register_type_lib",
+    SharedFile => "shared_file",
+    IsReadmeFile => "is_readme_file",
+    CompareTimeStamp => "compare_time_stamp",
+    FontIsNotTrueType => "font_is_not_true_type",
+    SkipIfSourceDoesntExist => "skip_if_source_doesnt_exist",
+    OverwriteReadOnly => "overwrite_read_only",
+    OverwriteSameVersion => "overwrite_same_version",
+    CustomDestName => "custom_dest_name",
+    OnlyIfDestFileExists => "only_if_dest_file_exists",
+    NoRegError => "no_reg_error",
+    UninsRestartDelete => "unins_restart_delete",
+    OnlyIfDoesntExist => "only_if_doesnt_exist",
+    IgnoreVersion => "ignore_version",
+    PromptIfOlder => "prompt_if_older",
+    DontCopy => "dont_copy",
+    UninsRemoveReadOnly => "unins_remove_read_only",
+    RecurseSubDirsExternal => "recurse_subdirs_external",
+    ReplaceSameVersionIfContentsDiffer => "replace_same_version_if_contents_differ",
+    DontVerifyChecksum => "dont_verify_checksum",
+    UninsNoSharedFilePrompt => "unins_no_shared_file_prompt",
+    CreateAllSubDirs => "create_all_subdirs",
+    Bits32 => "bits32",
+    Bits64 => "bits64",
+    ExternalSizePreset => "external_size_preset",
+    SetNtfsCompression => "set_ntfs_compression",
+    UnsetNtfsCompression => "unset_ntfs_compression",
+    GacInstall => "gac_install",
+    Download => "download",
+    ExtractArchive => "extract_archive",
+});
 
 /// Parsed `TSetupFileEntry`.
 #[derive(Clone, Debug)]
@@ -174,6 +218,12 @@ pub enum FileVerificationKind {
     /// `fvISSig` — Inno Setup signature check.
     IsSig,
 }
+
+stable_name_enum!(FileVerificationKind, {
+    Self::None => "none",
+    Self::Hash => "hash",
+    Self::IsSig => "issig",
+});
 
 impl FileEntry {
     /// Reads one `TSetupFileEntry`. Dispatches on version since the

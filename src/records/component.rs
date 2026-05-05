@@ -41,6 +41,14 @@ pub enum ComponentFlag {
     DontInheritCheck,
 }
 
+stable_flag_enum!(ComponentFlag, {
+    Fixed => "fixed",
+    Restart => "restart",
+    DisableNoUninstallWarning => "disable_no_uninstall_warning",
+    Exclusive => "exclusive",
+    DontInheritCheck => "dont_inherit_check",
+});
+
 /// Parsed `TSetupComponentEntry`.
 #[derive(Clone, Debug)]
 pub struct ComponentEntry {

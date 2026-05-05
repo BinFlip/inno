@@ -46,6 +46,12 @@ pub enum CloseOnExit {
     DontClose,
 }
 
+stable_name_enum!(CloseOnExit, {
+    Self::NoSetting => "no_setting",
+    Self::Close => "close",
+    Self::DontClose => "dont_close",
+});
+
 /// `TSetupIconOptions` flag bits.
 #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
 #[non_exhaustive]
@@ -62,6 +68,17 @@ pub enum IconFlag {
     PreventPinning,
     HasAppUserModelToastActivatorCLSID,
 }
+
+stable_flag_enum!(IconFlag, {
+    NeverUninstall => "never_uninstall",
+    RunMinimized => "run_minimized",
+    CreateOnlyIfFileExists => "create_only_if_file_exists",
+    UseAppPaths => "use_app_paths",
+    FolderShortcut => "folder_shortcut",
+    ExcludeFromShowInNewInstall => "exclude_from_show_in_new_install",
+    PreventPinning => "prevent_pinning",
+    HasAppUserModelToastActivatorCLSID => "has_app_user_model_toast_activator_clsid",
+});
 
 /// Parsed `TSetupIconEntry`.
 #[derive(Clone, Debug)]

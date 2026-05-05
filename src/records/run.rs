@@ -38,6 +38,12 @@ pub enum RunWait {
     UntilIdle,
 }
 
+stable_name_enum!(RunWait, {
+    Self::UntilTerminated => "until_terminated",
+    Self::NoWait => "no_wait",
+    Self::UntilIdle => "until_idle",
+});
+
 /// `TSetupRunOptions` flag bits.
 #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
 #[non_exhaustive]
@@ -56,6 +62,21 @@ pub enum RunFlag {
     DontLogParameters,
     LogOutput,
 }
+
+stable_flag_enum!(RunFlag, {
+    ShellExec => "shell_exec",
+    SkipIfDoesntExist => "skip_if_doesnt_exist",
+    PostInstall => "post_install",
+    Unchecked => "unchecked",
+    SkipIfSilent => "skip_if_silent",
+    SkipIfNotSilent => "skip_if_not_silent",
+    HideWizard => "hide_wizard",
+    Bits32 => "bits32",
+    Bits64 => "bits64",
+    RunAsOriginalUser => "run_as_original_user",
+    DontLogParameters => "dont_log_parameters",
+    LogOutput => "log_output",
+});
 
 /// Parsed `TSetupRunEntry`.
 #[derive(Clone, Debug)]

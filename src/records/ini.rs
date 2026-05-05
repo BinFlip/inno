@@ -36,6 +36,14 @@ pub enum IniFlag {
     HasValue,
 }
 
+stable_flag_enum!(IniFlag, {
+    CreateKeyIfDoesntExist => "create_key_if_doesnt_exist",
+    UninsDeleteEntry => "unins_delete_entry",
+    UninsDeleteEntireSection => "unins_delete_entire_section",
+    UninsDeleteSectionIfEmpty => "unins_delete_section_if_empty",
+    HasValue => "has_value",
+});
+
 /// Parsed `TSetupIniEntry`.
 #[derive(Clone, Debug)]
 pub struct IniEntry {

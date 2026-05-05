@@ -57,6 +57,33 @@ pub enum LanguageCodepage {
     Other(u32),
 }
 
+impl LanguageCodepage {
+    /// Returns the numeric codepage value carried by this variant.
+    #[must_use]
+    pub fn raw(self) -> u32 {
+        match self {
+            Self::Utf16Le => 1200,
+            Self::Windows(codepage) | Self::Other(codepage) => codepage,
+        }
+    }
+
+    /// Returns a stable label for this codepage family.
+    #[must_use]
+    pub fn label(self) -> &'static str {
+        match self {
+            Self::Utf16Le => "utf16le",
+            Self::Windows(_) => "windows",
+            Self::Other(_) => "other",
+        }
+    }
+}
+
+impl core::fmt::Display for LanguageCodepage {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        f.write_str(self.label())
+    }
+}
+
 /// Parsed `TSetupLanguageEntry`.
 ///
 /// Strings are returned as raw bytes (`Vec<u8>`) — codepage decoding

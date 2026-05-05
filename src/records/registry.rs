@@ -22,7 +22,7 @@
 //! 4.0.11..4.1.0 sits between), so we read [`ItemConditions`] and
 //! [`WindowsVersionRange`] separately rather than via `ItemBase`.
 
-use std::collections::HashSet;
+use std::{borrow::Cow, collections::HashSet};
 
 use crate::{
     error::Error,
@@ -60,6 +60,17 @@ pub enum RegistryHive {
     Unknown(u32),
 }
 
+stable_name_enum!(RegistryHive, {
+    Self::ClassesRoot => "classes_root",
+    Self::CurrentUser => "current_user",
+    Self::LocalMachine => "local_machine",
+    Self::Users => "users",
+    Self::PerformanceData => "performance_data",
+    Self::CurrentConfig => "current_config",
+    Self::DynData => "dyn_data",
+    Self::Unknown(_) => "unknown",
+});
+
 /// Registry value type (`TSetupRegistryValueType`).
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[non_exhaustive]
@@ -73,6 +84,16 @@ pub enum RegistryValueType {
     MultiString,
     QWord,
 }
+
+stable_name_enum!(RegistryValueType, {
+    Self::None => "none",
+    Self::String => "string",
+    Self::ExpandString => "expand_string",
+    Self::DWord => "dword",
+    Self::Binary => "binary",
+    Self::MultiString => "multi_string",
+    Self::QWord => "qword",
+});
 
 /// `TSetupRegistryOptions` flag bits.
 #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
@@ -92,6 +113,21 @@ pub enum RegistryFlag {
     Bits32,
     Bits64,
 }
+
+stable_flag_enum!(RegistryFlag, {
+    CreateValueIfDoesntExist => "create_value_if_doesnt_exist",
+    UninsDeleteValue => "unins_delete_value",
+    UninsClearValue => "unins_clear_value",
+    UninsDeleteEntireKey => "unins_delete_entire_key",
+    UninsDeleteEntireKeyIfEmpty => "unins_delete_entire_key_if_empty",
+    PreserveStringType => "preserve_string_type",
+    DeleteKey => "delete_key",
+    DeleteValue => "delete_value",
+    NoError => "no_error",
+    DontCreateKey => "dont_create_key",
+    Bits32 => "bits32",
+    Bits64 => "bits64",
+});
 
 /// Parsed `TSetupRegistryEntry`.
 #[derive(Clone, Debug)]
@@ -135,6 +171,30 @@ pub struct RegistryEntry {
 }
 
 impl RegistryEntry {
+    /// Returns the raw registry value bytes.
+    #[must_use]
+    pub fn value_bytes(&self) -> &[u8] {
+        &self.value
+    }
+
+    /// Renders the registry value using the decoded registry value type.
+    #[must_use]
+    pub fn value_text(&self) -> Cow<'_, str> {
+        match self.value_type {
+            Some(RegistryValueType::DWord) => Cow::Owned(format_le_u32(&self.value)),
+            Some(RegistryValueType::QWord) => Cow::Owned(format_le_u64(&self.value)),
+            Some(RegistryValueType::String | RegistryValueType::ExpandString) => {
+                Cow::Owned(decode_utf16le_lossy(&self.value))
+            }
+            Some(RegistryValueType::MultiString) => {
+                Cow::Owned(decode_utf16le_lossy(&self.value).replace('\0', "\\0"))
+            }
+            Some(RegistryValueType::Binary) | Some(RegistryValueType::None) | None => {
+                Cow::Owned(format_hex(&self.value))
+            }
+        }
+    }
+
     /// Reads one `TSetupRegistryEntry`.
     ///
     /// # Errors
@@ -241,6 +301,48 @@ fn decode_value_type(b: u8, version: &Version) -> Option<RegistryValueType> {
         ]
     };
     table.get(usize::from(b)).copied()
+}
+
+fn format_le_u32(bytes: &[u8]) -> String {
+    let mut buf = [0_u8; 4];
+    for (idx, byte) in bytes.iter().take(4).enumerate() {
+        if let Some(slot) = buf.get_mut(idx) {
+            *slot = *byte;
+        }
+    }
+    u32::from_le_bytes(buf).to_string()
+}
+
+fn format_le_u64(bytes: &[u8]) -> String {
+    let mut buf = [0_u8; 8];
+    for (idx, byte) in bytes.iter().take(8).enumerate() {
+        if let Some(slot) = buf.get_mut(idx) {
+            *slot = *byte;
+        }
+    }
+    u64::from_le_bytes(buf).to_string()
+}
+
+fn decode_utf16le_lossy(bytes: &[u8]) -> String {
+    let units: Vec<u16> = bytes
+        .chunks_exact(2)
+        .filter_map(|chunk| <[u8; 2]>::try_from(chunk).ok().map(u16::from_le_bytes))
+        .collect();
+    String::from_utf16_lossy(&units)
+}
+
+fn format_hex(bytes: &[u8]) -> String {
+    const HEX: &[u8; 16] = b"0123456789abcdef";
+    let mut out = String::with_capacity(bytes.len().saturating_mul(2));
+    for byte in bytes {
+        if let Some(ch) = HEX.get(usize::from(byte >> 4)) {
+            out.push(char::from(*ch));
+        }
+        if let Some(ch) = HEX.get(usize::from(byte & 0x0f)) {
+            out.push(char::from(*ch));
+        }
+    }
+    out
 }
 
 fn registry_flag_table(version: &Version) -> Vec<RegistryFlag> {

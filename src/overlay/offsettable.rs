@@ -50,6 +50,16 @@ pub enum SetupLdrFamily {
     V5_1_5Alt,
 }
 
+stable_name_enum!(SetupLdrFamily, {
+    Self::V1_2_10 => "v1_2_10",
+    Self::V4_0_0 => "v4_0_0",
+    Self::V4_0_3 => "v4_0_3",
+    Self::V4_0_10 => "v4_0_10",
+    Self::V4_1_6 => "v4_1_6",
+    Self::V5_1_5 => "v5_1_5",
+    Self::V5_1_5Alt => "v5_1_5_alt",
+});
+
 impl SetupLdrFamily {
     /// Returns the canonical 12-byte signature for this family.
     pub fn signature(self) -> &'static [u8; 12] {

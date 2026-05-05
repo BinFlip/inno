@@ -252,6 +252,58 @@ pub enum HeaderOption {
     UninstallLogging,
 }
 
+stable_flag_enum!(HeaderOption, {
+    DisableStartupPrompt => "disable_startup_prompt",
+    CreateAppDir => "create_app_dir",
+    AllowNoIcons => "allow_no_icons",
+    AlwaysRestart => "always_restart",
+    AlwaysUsePersonalGroup => "always_use_personal_group",
+    WindowVisible => "window_visible",
+    WindowShowCaption => "window_show_caption",
+    WindowResizable => "window_resizable",
+    WindowStartMaximized => "window_start_maximized",
+    EnableDirDoesntExistWarning => "enable_dir_doesnt_exist_warning",
+    Password => "password",
+    AllowRootDirectory => "allow_root_directory",
+    DisableFinishedPage => "disable_finished_page",
+    UsePreviousAppDir => "use_previous_app_dir",
+    BackColorHorizontal => "back_color_horizontal",
+    UsePreviousGroup => "use_previous_group",
+    UpdateUninstallLogAppName => "update_uninstall_log_app_name",
+    UsePreviousSetupType => "use_previous_setup_type",
+    DisableReadyMemo => "disable_ready_memo",
+    AlwaysShowComponentsList => "always_show_components_list",
+    FlatComponentsList => "flat_components_list",
+    ShowComponentSizes => "show_component_sizes",
+    UsePreviousTasks => "use_previous_tasks",
+    DisableReadyPage => "disable_ready_page",
+    AlwaysShowDirOnReadyPage => "always_show_dir_on_ready_page",
+    AlwaysShowGroupOnReadyPage => "always_show_group_on_ready_page",
+    AllowUNCPath => "allow_unc_path",
+    UserInfoPage => "user_info_page",
+    UsePreviousUserInfo => "use_previous_user_info",
+    UninstallRestartComputer => "uninstall_restart_computer",
+    RestartIfNeededByRun => "restart_if_needed_by_run",
+    ShowTasksTreeLines => "show_tasks_tree_lines",
+    AllowCancelDuringInstall => "allow_cancel_during_install",
+    WizardImageStretch => "wizard_image_stretch",
+    AppendDefaultDirName => "append_default_dir_name",
+    AppendDefaultGroupName => "append_default_group_name",
+    EncryptionUsed => "encryption_used",
+    SetupLogging => "setup_logging",
+    SignedUninstaller => "signed_uninstaller",
+    UsePreviousLanguage => "use_previous_language",
+    DisableWelcomePage => "disable_welcome_page",
+    CloseApplications => "close_applications",
+    RestartApplications => "restart_applications",
+    AllowNetworkDrive => "allow_network_drive",
+    ForceCloseApplications => "force_close_applications",
+    AppNameHasConsts => "app_name_has_consts",
+    UsePreviousPrivileges => "use_previous_privileges",
+    WizardResizable => "wizard_resizable",
+    UninstallLogging => "uninstall_logging",
+});
+
 /// `TSetupWizardStyle`: visual presentation style of the wizard.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[non_exhaustive]
@@ -261,6 +313,8 @@ pub enum WizardStyle {
     /// `wsModern` — modern Inno Setup wizard look (Inno Setup 6+).
     Modern,
 }
+
+stable_name_enum!(WizardStyle, { Self::Classic => "classic", Self::Modern => "modern" });
 
 /// `TSetupImageAlphaFormat`: alpha-channel handling for wizard images.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -274,6 +328,12 @@ pub enum ImageAlphaFormat {
     Premultiplied,
 }
 
+stable_name_enum!(ImageAlphaFormat, {
+    Self::Ignored => "ignored",
+    Self::Defined => "defined",
+    Self::Premultiplied => "premultiplied",
+});
+
 /// `TSetupLogMode` for the uninstall log.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[non_exhaustive]
@@ -285,6 +345,12 @@ pub enum UninstallLogMode {
     /// `lmOverwrite` — overwrite existing log.
     Overwrite,
 }
+
+stable_name_enum!(UninstallLogMode, {
+    Self::Append => "append",
+    Self::New => "new",
+    Self::Overwrite => "overwrite",
+});
 
 /// `TSetupBoolAutoNoYes` (used for `dir_exists_warning`,
 /// `disable_dir_page`, `disable_program_group_page`).
@@ -299,6 +365,8 @@ pub enum AutoNoYes {
     Yes,
 }
 
+stable_name_enum!(AutoNoYes, { Self::Auto => "auto", Self::No => "no", Self::Yes => "yes" });
+
 /// `TSetupBoolYesNoAuto` (used for `show_language_dialog`).
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[non_exhaustive]
@@ -310,6 +378,8 @@ pub enum YesNoAuto {
     /// `slAuto`.
     Auto,
 }
+
+stable_name_enum!(YesNoAuto, { Self::Yes => "yes", Self::No => "no", Self::Auto => "auto" });
 
 /// `TSetupPrivilegesRequired` — privilege level required to install.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -325,6 +395,13 @@ pub enum PrivilegesRequired {
     Lowest,
 }
 
+stable_name_enum!(PrivilegesRequired, {
+    Self::None => "none",
+    Self::PowerUser => "power_user",
+    Self::Admin => "admin",
+    Self::Lowest => "lowest",
+});
+
 /// `TSetupLanguageDetectionMethod`.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[non_exhaustive]
@@ -336,6 +413,12 @@ pub enum LanguageDetectionMethod {
     /// `ldNone`.
     None,
 }
+
+stable_name_enum!(LanguageDetectionMethod, {
+    Self::UiLanguage => "ui_language",
+    Self::Locale => "locale",
+    Self::None => "none",
+});
 
 /// `TSetupCompressMethod` — compression method for `setup-1` chunks
 /// (note: distinct from the `setup-0` block compression discovered at
@@ -354,6 +437,14 @@ pub enum CompressMethod {
     /// `cmLzma2` (5.3.9+).
     Lzma2,
 }
+
+stable_name_enum!(CompressMethod, {
+    Self::Stored => "stored",
+    Self::Zlib => "zlib",
+    Self::Bzip2 => "bzip2",
+    Self::Lzma1 => "lzma1",
+    Self::Lzma2 => "lzma2",
+});
 
 /// Processor architectures Inno Setup recognizes on the wire.
 ///
@@ -382,6 +473,15 @@ pub enum Architecture {
     Arm32,
     Arm64,
 }
+
+stable_name_enum!(Architecture, {
+    Self::Unknown => "unknown",
+    Self::X86 => "x86",
+    Self::Amd64 => "amd64",
+    Self::IA64 => "ia64",
+    Self::Arm32 => "arm32",
+    Self::Arm64 => "arm64",
+});
 
 /// `TSetupPrivilegesRequiredOverride` flag bits (6.0.0+).
 #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
