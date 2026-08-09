@@ -5,6 +5,23 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.3] - 2026-08-09
+
+### Fixed
+
+- `repository` pointed at `github.com/BinFlip/inno-rs`, which does not exist. Every
+  published version so far has carried a dead repository link on crates.io. It now points
+  at the real repository, `github.com/ATRAPSLLC/innospect`.
+
+### Changed
+
+- Recorded ATRAPS LLC as copyright holder and added a `NOTICE` file. No functional change.
+- Dropped the deprecated `authors` field.
+- Raised the `pascalscript` minimum to 0.1.2. `Container` is re-exported publicly, so that
+  release's backward-branch resolution fix is part of this crate's effective API surface.
+- Refreshed remaining dependencies (`cargo update`); `bitflags` moved to 2.13.1.
+- Publishing now uses crates.io trusted publishing instead of a stored registry token.
+
 ## [0.1.2] - 2026-07-06
 
 ### Fixed
@@ -15,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   added since 6.3.0 (`CloseApplicationsFilterExcludes`, `SevenZipLibraryName`,
   `UsePrevious*`) are now read ahead of the `AnsiString` tail, matching
   `TSetupHeader`'s all-strings-then-all-ansistrings serialization
-  (GitHub [#1](https://github.com/BinFlip/inno/issues/1)).
+  (GitHub [#1](https://github.com/ATRAPSLLC/innospect/issues/1)).
 
 ### Added
 
@@ -41,5 +58,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial published release.
 
-[0.1.2]: https://github.com/BinFlip/inno-rs/compare/v0.1.1...v0.1.2
-[0.1.1]: https://github.com/BinFlip/inno-rs/releases/tag/v0.1.1
+[0.1.3]: https://github.com/ATRAPSLLC/innospect/compare/v0.1.2...v0.1.3
+[0.1.2]: https://github.com/ATRAPSLLC/innospect/compare/v0.1.1...v0.1.2
+[0.1.1]: https://github.com/ATRAPSLLC/innospect/releases/tag/v0.1.1
