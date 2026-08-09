@@ -2,11 +2,10 @@
 name = "innospect"
 version = "0.1.2"
 edition = "2024"
-authors = ["Johann Kempter <admin@binflip.rs>"]
 rust-version = "1.88"
 description = "Parse and inspect Inno Setup installer binaries"
 license = "Apache-2.0"
-repository = "https://github.com/BinFlip/inno-rs"
+repository = "https://github.com/ATRAPSLLC/innospect"
 readme = "README.md"
 keywords = ["inno-setup", "installer", "parser", "reverse-engineering", "binary-analysis"]
 categories = ["parser-implementations"]
