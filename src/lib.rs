@@ -114,7 +114,7 @@ pub mod version;
 /// Re-export of the `pascalscript` crate so existing
 /// `innospect::pascalscript::*` paths resolve through `innospect`. The
 /// parser itself is the standalone
-/// [`pascalscript`](https://github.com/BinFlip/pascalscript-rs)
+/// [`pascalscript`](https://github.com/ATRAPSLLC/pascalscript-rs)
 /// crate; this re-export is for caller convenience.
 pub use ::pascalscript;
 
